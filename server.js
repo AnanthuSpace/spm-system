@@ -12,10 +12,10 @@ app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(nocache())
-app.use(cors());
+
 
 app.use("/", userRoute)
-const cors = require('cors');
+
 
 app.use(express.json());
 app.use(cors());

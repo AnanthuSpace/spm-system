@@ -4,7 +4,8 @@ dotenv.config()
 const cors = require('cors');
 const nocache = require("nocache")
 require("./config/db_connect")
-const userRoute = require("./routes/userRoutes")
+const studentRoute = require("./routes/student.routes")
+const companyRoute = require("./routes/company.routes")
 const app = express();
 
 app.set("view engine", "ejs")
@@ -14,7 +15,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(nocache())
 
 
-app.use("/", userRoute)
+app.use("/", studentRoute)
+app.use("/company", companyRoute)
 
 
 app.use(express.json());

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://dubaimonsters.com/wp-content/uploads/2018/04/High-Resolution-Background-Images.jpg') no-repeat center center/cover;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;     /* Center vertically */
+            padding: 0;              /* Removed padding-right */
+        }
+        .container {
+            width: 400px;
+            background: rgba(249, 248, 248, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fbf9f9;
+            color: #0c0b0b;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #0655e7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 12px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Registration</h2>
+        <form action="#" method="POST" enctype="multipart/form-data">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Personal Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="location">City & State:</label>
+            <input type="text" id="location" name="location" required>
+
+            <label for="degree">Highest Qualification:</label>
+            <input type="text" id="degree" name="degree" required>
+
+            <label for="university">University/College:</label>
+            <input type="text" id="university" name="university" required>
+
+            <label for="year">Graduation Year:</label>
+            <input type="number" id="year" name="year" required>
+
+            <label for="cgpa">CGPA/Percentage:</label>
+            <input type="text" id="cgpa" name="cgpa" required>
+
+            <label for="prof-email">Professional Email:</label>
+            <input type="email" id="prof-email" name="prof-email" required>
+
+            <label for="certificates">Upload Certificates (PDF, JPG, PNG):</label>
+            <input type="file" id="certificates" name="certificates" accept=".pdf, .jpg, .png" multiple required>
+
+            <label for="resume">Upload Resume (PDF, DOCX):</label>
+            <input type="file" id="resume" name="resume" accept=".pdf, .docx" required>
+
+            <label for="photo">Upload Professional Photo (JPG, PNG):</label>
+            <input type="file" id="photo" name="photo" accept=".jpg, .png" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

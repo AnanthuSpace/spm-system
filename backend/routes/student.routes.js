@@ -1,9 +1,12 @@
-const express = require("express");
+import express from "express";
+import * as studentController from "../controllers/student/student.controller.js"; 
+
+
 const router = express.Router();
-const studentController = require("../controllers/student/student.controller");
 
 router.get("/ping", studentController.pongFromStudent);
 router.get("/", studentController.renderHome);
 router.get("/login", studentController.renderLogin);
+router.post("/register", studentController.userRegistration);
 
-module.exports = router;
+export default router;

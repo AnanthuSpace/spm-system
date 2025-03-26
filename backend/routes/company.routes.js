@@ -1,8 +1,9 @@
-const express = require("express")
-const router = express.Router()
-const companyController = require("../controllers/company/company.controller")
+import express from "express";
+import { pongFromCompany, companyRegistration } from "../controllers/company/company.controller.js";
 
-router.get("/ping", companyController.pongFromCompany)
-router.get('/registration', companyController.companyRegistration)
+const router = express.Router();
 
-module.exports = router
+router.get("/ping", pongFromCompany);
+router.get("/registration", companyRegistration);
+
+export default router;

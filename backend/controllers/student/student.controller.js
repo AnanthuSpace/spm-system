@@ -1,29 +1,60 @@
-const pongFromStudent = async (req, res, next) => {
-    try {
-        res.send("Pong from Student Controller");
-    } catch (error) {
-        next(error); 
-    }
-};
+import { sendMail } from "../../config/nodeMailer.js";
+import Student from "../../models/student.model.js"; // ✅ Correct import
+import bcrypt from "bcrypt";
 
-const renderHome = async (req, res, next) => {
+export const pongFromStudent = async (req, res, next) => {
     try {
-        res.render("Home");
+        res.json({ message: "Pong from Student Controller" });
     } catch (error) {
         next(error);
     }
 };
 
-const renderLogin = async (req, res, next) => {
+export const renderHome = async (req, res, next) => {
     try {
-        res.render("user/login");
+        res.json({ message: "Welcome to the Home Page" });
     } catch (error) {
         next(error);
     }
 };
 
-module.exports = {
-    renderHome,
-    pongFromStudent,
-    renderLogin
+export const renderLogin = async (req, res, next) => {
+    try {
+        res.json({ message: "Login Page" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const userRegistration = async (req, res, next) => {
+    try {
+        const { name, email, password } = req.body;
+
+        const existingStudent = await Student.findOne({ email });
+        if (existingStudent) {
+            return res.status(400).json({ message: "Email already registered!" });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        const newStudent = new Student({
+            userName: name,
+            email,
+            password: hashedPassword,
+            otp,
+        });
+
+        const userData = await newStudent.save();
+
+        await sendMail(email, "otp", otp);
+
+        res.status(201).json({ message: "User registered successfully. OTP sent to email.", Student: userData });
+
+    } catch (error) {
+        console.error("Registration Error:", error);
+        next(error);
+    }
 };

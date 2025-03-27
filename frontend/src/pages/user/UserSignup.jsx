@@ -3,7 +3,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
 import { registerUser } from "../../../api/studentsApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthImg from "../../components/user/AuthImg";
 
 const UserSignup = () => {
   const navigate = useNavigate();
@@ -32,17 +33,9 @@ const UserSignup = () => {
       try {
         const response = await registerUser(values);
         if (response?.Student) {
-          const userData = {
-            id: response.Student._id,
-            name: response.Student.fullName,
-            email: response.Student.email,
-          };
-
-          localStorage.setItem("user", JSON.stringify(userData));
-
           toast.success(response.message);
           resetForm();
-          navigate("/");
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error:", error);
@@ -54,19 +47,13 @@ const UserSignup = () => {
   return (
     <div className="flex h-screen w-screen">
       {/* Left Side - Fullscreen Image */}
-      <div className="hidden md:flex w-1/2 h-full">
-        <img
-          src="/signup.jpg"
-          alt="Professional"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <AuthImg />
 
       {/* Right Side - Fullscreen Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">
         <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8">
           <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">
-            Student Registration
+            Signup
           </h2>
 
           <form onSubmit={formik.handleSubmit} className="space-y-5">
@@ -143,6 +130,13 @@ const UserSignup = () => {
               Register
             </button>
           </form>
+
+          <p className="text-sm text-center mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600 hover:underline">
+              Login
+            </Link>
+          </p>
         </div>
       </div>
     </div>

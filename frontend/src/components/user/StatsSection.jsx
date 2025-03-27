@@ -2,9 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { label: "Active Jobs", value: 50000, color: "bg-blue-100 text-blue-600" },
-  { label: "Companies", value: 10000, color: "bg-green-100 text-green-600" },
-  { label: "Job Seekers", value: 1000000, color: "bg-purple-100 text-purple-600" },
+  { label: "Active Jobs", value: 100, color: "bg-blue-100 text-blue-600" },
+  { label: "Companies", value: 50, color: "bg-green-100 text-green-600" },
+  { label: "Job Seekers", value: 200, color: "bg-purple-100 text-purple-600" },
 ];
 
 // Counter Animation

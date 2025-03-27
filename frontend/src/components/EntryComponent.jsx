@@ -14,7 +14,7 @@ const EntryComponent = () => {
           full-time, part-time, contract, and internships.
         </p>
         {/* Search Box */}
-        <div className="flex items-center bg-white shadow-md rounded-lg p-2 w-full max-w-md mx-auto md:mx-0">
+        <div className="flex items-center bg-white shadow-md rounded-lg p-2 w-full max-w-md mx-auto md:mx-0 mt-15">
           <input
             type="text"
             placeholder="Search jobs..."

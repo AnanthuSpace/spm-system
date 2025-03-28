@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get("/ping", studentController.pongFromStudent);
 router.get("/", studentController.renderHome);
-router.get("/login", studentController.renderLogin);
+router.post("/login", studentController.userLogin);
 router.post("/register", studentController.userRegistration);
+router.post("/user-otp", studentController.verifyOtp);
+router.post("/user-resendotp", studentController.resendOtp);
 
 export default router;

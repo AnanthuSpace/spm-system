@@ -25,14 +25,10 @@ const UserLogin = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const response = await loginUser(values);
-        if (response?.Student) {
-          const userData = {
-            id: response.Student._id,
-            name: response.Student.fullName,
-            email: response.Student.email,
-          };
+        if (response?.success) {
 
-          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("userData", JSON.stringify(response.data.userData));
+          localStorage.setItem("accessToken", response.data.accessToken);
 
           toast.success("Login successful!");
           resetForm();

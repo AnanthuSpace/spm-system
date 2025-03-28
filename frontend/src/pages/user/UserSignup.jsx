@@ -32,10 +32,10 @@ const UserSignup = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const response = await registerUser(values);
-        if (response?.Student) {
+        if (response?.success) {
           toast.success(response.message);
           resetForm();
-          navigate("/login");
+          navigate("/otp-verify", { state: { email: values.email } });
         }
       } catch (error) {
         console.error("Error:", error);
@@ -46,10 +46,8 @@ const UserSignup = () => {
 
   return (
     <div className="flex h-screen w-screen">
-      {/* Left Side - Fullscreen Image */}
       <AuthImg />
 
-      {/* Right Side - Fullscreen Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">
         <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8">
           <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">

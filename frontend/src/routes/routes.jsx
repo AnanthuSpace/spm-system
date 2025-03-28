@@ -14,18 +14,23 @@ import CompanyLayout from "../layouts/CompanyLayout";
 import CompanyProfile from "../components/company/CompanyProfile";
 import Jobs from "../components/company/Jobs";
 import Students from "../components/company/Students";
+import UserOtp from "../pages/user/userOtp";
+import UserProtectedRoute from "../components/Protecter/UserProtectedRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<UserLogin />} />
       <Route path="/signup" element={<UserSignup />} />
+      <Route path="/otp-verify" element={<UserOtp />} />
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="companies" element={<CompanyList />} />
         <Route path="jobs" element={<JobList />} />
+        <Route path="companies" element={<CompanyList />} />
         <Route path="job-details" element={<JobView />} />
-        <Route path="user-profile" element={<UserProfilePage />} />
+        <Route element={<UserProtectedRoute />}>
+          <Route path="user-profile" element={<UserProfilePage />} />
+        </Route>
       </Route>
       <Route path="/company-signup" element={<CompanySignup />} />
       <Route path="/company-registration" element={<CompanyRegistration />} />

@@ -1,153 +1,116 @@
-import { Building2 } from "lucide-react";
-import { useState } from "react";
+import React from "react";
+import { Pencil } from "lucide-react"; // Importing the edit icon
 
-const CompanyProfile = () => {
-  const [company, setCompany] = useState({
-    name: "Tech Corp Pvt Ltd",
-    description:
-      "A leading software development company specializing in AI and web solutions.",
-    email: "contact@techcorp.com",
+const ProfileDetails = () => {
+  // Dummy user data (embedded in the component)
+  const user = {
+    fullName: "John Doe",
+    email: "johndoe@gmail.com",
     phone: "+91 9876543210",
-    address: "123, Silicon Valley, Bangalore, India",
-    website: "https://www.techcorp.com",
-  });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editedCompany, setEditedCompany] = useState({ ...company });
-
-  const handleChange = (e) => {
-    setEditedCompany({ ...editedCompany, [e.target.name]: e.target.value });
+    cityState: "Bangalore, India",
+    highestQualification: "Bachelor of Technology",
+    university: "Indian Institute of Technology, Delhi",
+    graduationYear: 2023,
+    cgpaOrPercentage: "8.9 CGPA",
+    skills: ["React", "Node.js", "MongoDB", "Express.js"],
+    certificates: [
+      "https://example.com/certificate1.pdf",
+      "https://example.com/certificate2.jpg"
+    ],
+    resume: "https://example.com/johndoe_resume.pdf"
   };
 
-  const handleSave = () => {
-    setCompany(editedCompany);
-    setIsModalOpen(false);
+  // Handle Edit Button Click
+  const handleEdit = () => {
+    alert("Edit Profile Clicked!");
   };
 
   return (
-    <div className="mx-auto bg-white shadow-md rounded-lg p-6 w-full">
-      <div className="flex items-center gap-4">
-        {/* Company Logo */}
-        <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-full">
-          <Building2 className="text-gray-600 w-12 h-12" />
+    <div className="p-6 relative">
+      {/* Edit Icon Button (Top Right) */}
+      <button
+        onClick={handleEdit}
+        className="absolute top-4 right-4 text-gray-600 hover:text-blue-600 transition-all"
+      >
+        <Pencil className="w-6 h-6" />
+      </button>
+
+      {/* User Details Grid */}
+      <div className="grid grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg shadow-md">
+        <div className="space-y-4">
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">Name:</span> {user.fullName}
+          </p>
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">Phone:</span> {user.phone}
+          </p>
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">Email:</span> {user.email}
+          </p>
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">City & State:</span> {user.cityState}
+          </p>
         </div>
-        <div>
-          <h1 className="text-2xl font-semibold">{company.name}</h1>
-          <p className="text-gray-600">{company.description}</p>
+        <div className="space-y-4">
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">Qualification:</span> {user.highestQualification}
+          </p>
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">University:</span> {user.university}
+          </p>
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">Graduation Year:</span> {user.graduationYear}
+          </p>
+          <p className="text-lg font-semibold text-gray-800">
+            <span className="text-blue-600">CGPA/Percentage:</span> {user.cgpaOrPercentage}
+          </p>
         </div>
       </div>
 
-      <div className="mt-6 space-y-4">
-        <div className="flex justify-between border-b pb-2">
-          <span className="font-medium text-gray-700">Email:</span>
-          <span className="text-gray-500">{company.email}</span>
-        </div>
-        <div className="flex justify-between border-b pb-2">
-          <span className="font-medium text-gray-700">Phone:</span>
-          <span className="text-gray-500">{company.phone}</span>
-        </div>
-        <div className="flex justify-between border-b pb-2">
-          <span className="font-medium text-gray-700">Address:</span>
-          <span className="text-gray-500">{company.address}</span>
-        </div>
-        <div className="flex justify-between border-b pb-2">
-          <span className="font-medium text-gray-700">Website:</span>
+      {/* Skills */}
+      <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold text-gray-800">Skills</h2>
+        <p className="text-gray-700">
+          {user.skills && user.skills.length > 0 ? user.skills.join(", ") : "No skills added"}
+        </p>
+      </div>
+
+      {/* Certificates */}
+      <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold text-gray-800">Certificates</h2>
+        {user.certificates && user.certificates.length > 0 ? (
+          <ul className="list-disc list-inside text-blue-600">
+            {user.certificates.map((cert, index) => (
+              <li key={index}>
+                <a href={cert} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  📜 Certificate {index + 1}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-700">No certificates uploaded</p>
+        )}
+      </div>
+
+      {/* Resume */}
+      <div className="mt-6 flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold text-gray-800">Resume</h2>
+        {user.resume ? (
           <a
-            href={company.website}
+            href={user.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 hover:text-blue-700 underline transition-all"
           >
-            {company.website}
+            📄 View Resume
           </a>
-        </div>
+        ) : (
+          <p className="text-red-500 font-medium">No Resume Uploaded</p>
+        )}
       </div>
-
-      <div className="mt-6 flex justify-end">
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Edit Profile
-        </button>
-      </div>
-
-      {/* Edit Profile Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-opacity-80 backdrop-blur-lg z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Edit Company Profile</h2>
-
-            <div className="space-y-3">
-              <input
-                type="text"
-                name="name"
-                value={editedCompany.name}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-                placeholder="Company Name"
-              />
-              <input
-                type="text"
-                name="description"
-                value={editedCompany.description}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-                placeholder="Description"
-              />
-              <input
-                type="email"
-                name="email"
-                value={editedCompany.email}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-                placeholder="Email"
-              />
-              <input
-                type="text"
-                name="phone"
-                value={editedCompany.phone}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-                placeholder="Phone"
-              />
-              <input
-                type="text"
-                name="address"
-                value={editedCompany.address}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-                placeholder="Address"
-              />
-              <input
-                type="text"
-                name="website"
-                value={editedCompany.website}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-                placeholder="Website"
-              />
-            </div>
-
-            <div className="mt-4 flex justify-end gap-2">
-              <button
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                onClick={handleSave}
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default CompanyProfile;
+export default ProfileDetails;

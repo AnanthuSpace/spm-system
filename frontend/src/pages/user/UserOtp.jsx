@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
-// import { verifyOtp } from "../../../api/studentsApi";
-import { useNavigate } from "react-router-dom";
+import { verifyOtp } from "../../../api/studentsApi";
+import { useNavigate, useLocation } from "react-router-dom";
+import AuthImg from "../../components/user/AuthImg";
 
 const UserOtp = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email;
+
+  useEffect(() => {
+    if (!email) {
+      toast.error("No email found. Please register again.");
+      navigate("/signup");
+    }
+  }, [email, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -19,38 +29,46 @@ const UserOtp = () => {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const response = await verifyOtp(values);
+        const response = await verifyOtp({ email, otp: values.otp });
+        console.log(response)
         if (response?.success) {
           toast.success("OTP verified successfully!");
+
           resetForm();
-          navigate("/dashboard"); // Redirect after verification
+          navigate("/login"); 
         }
       } catch (error) {
         console.error("OTP Error:", error);
-        toast.error(error.message || "Invalid OTP. Please try again.");
+        toast.error(error.response?.data?.message || "Invalid OTP. Please try again.");
       }
     },
   });
 
+  const handleResendOtp = async () => {
+    try {
+      if (!email) {
+        toast.error("No email found. Please register again.");
+        return;
+      }
+      await resendOtp({ email }); 
+      toast.success("New OTP has been sent to your email.");
+    } catch (error) {
+      console.error("Resend OTP Error:", error);
+      toast.error("Failed to resend OTP. Try again later.");
+    }
+  };
+
   return (
     <div className="flex h-screen w-screen">
-      {/* Left Side - Fullscreen Image */}
-      <div className="hidden md:flex w-1/2 h-full">
-        <img
-          src="/otp.jpg"
-          alt="OTP Verification"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <AuthImg />
 
-      {/* Right Side - OTP Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">
         <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8">
           <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">
             OTP Verification
           </h2>
           <p className="text-sm text-gray-600 text-center mb-4">
-            Enter the 6-digit OTP sent to your email
+            Enter the 6-digit OTP sent to <strong>{email}</strong>
           </p>
 
           <form onSubmit={formik.handleSubmit} className="space-y-5">
@@ -82,7 +100,7 @@ const UserOtp = () => {
           <p className="text-sm text-center mt-4">
             Didn't receive OTP?{" "}
             <button
-              onClick={() => toast.info("Resending OTP...")}
+              onClick={handleResendOtp}
               className="text-blue-600 hover:underline"
             >
               Resend OTP

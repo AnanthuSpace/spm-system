@@ -4,14 +4,8 @@ import ProfileDetails from "../../components/user/ProfileDetails";
 import { User } from "lucide-react";
 
 const UserProfilePage = () => {
-  const [user, setUser] = useState({
-    fullName: "John Doe",
-    phone: "9876543210",
-    email: "johndoe@example.com",
-    skills: "React, Node.js, MongoDB",
-    qualification: "B.Tech in Computer Science",
-    resume: "",
-  });
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const [user, setUser] = useState(userData);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

@@ -18,6 +18,7 @@ export const sendMail = async (email, type, otp = "", reason = "") => {
     let mailOptions = {};
 
     if (type === "otp") {
+        console.log(email)
         mailOptions = {
             from: EMAIL_ID,
             to: email,

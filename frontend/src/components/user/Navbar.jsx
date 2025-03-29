@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, UserCircle, LogOut, User } from "lucide-react";
 
@@ -8,8 +8,7 @@ const Navbar = () => {
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Get user data from localStorage
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const userData = localStorage.getItem("userId")
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

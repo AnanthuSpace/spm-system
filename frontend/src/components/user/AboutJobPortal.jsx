@@ -1,6 +1,7 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const AboutJobPortal = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-16 bg-gray-50">
       {/* Left Section - Title & Content */}
@@ -10,21 +11,27 @@ const AboutJobPortal = () => {
           <div className="h-1 w-20 bg-blue-600 mt-2"></div>
         </h2>
         <p className="text-lg text-gray-600 leading-relaxed">
-          Our platform connects talented students with their dream careers. Whether 
-          you're seeking internships, full-time, part-time, or freelance jobs, 
-          we've got you covered.
+          Our platform connects talented students with their dream careers.
+          Whether you're seeking internships, full-time, part-time, or freelance
+          jobs, we've got you covered.
         </p>
         <p className="text-lg text-gray-600 leading-relaxed">
-          If you're a company, register with us and discover skilled candidates 
+          If you're a company, register with us and discover skilled candidates
           tailored to your hiring needs.
         </p>
 
         {/* Buttons */}
         <div className="flex space-x-4">
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium shadow-md hover:bg-blue-700 transition">
+          <button
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium shadow-md hover:bg-blue-700 transition"
+            onClick={() => navigate("/jobs")}
+          >
             Find Jobs
           </button>
-          <button className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition">
+          <button
+            className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition"
+            onClick={() => navigate("/company-login")}
+          >
             Register as Company
           </button>
         </div>

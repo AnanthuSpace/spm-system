@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
-import { loginUser } from "../../../api/studentsApi";
+import { loginUser } from "../../api/studentsApi";
 import { Link, useNavigate } from "react-router-dom";
 import AuthImg from "../../components/user/AuthImg";
 
@@ -27,7 +27,7 @@ const UserLogin = () => {
         const response = await loginUser(values);
         if (response?.success) {
 
-          localStorage.setItem("userData", JSON.stringify(response.data.userData));
+          localStorage.setItem("userId", response.data.userData._id);
           localStorage.setItem("accessToken", response.data.accessToken);
 
           toast.success("Login successful!");

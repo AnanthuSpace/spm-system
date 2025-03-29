@@ -1,6 +1,6 @@
 import { generateAccessToken } from "../../config/jwtConfig.js";
 import { sendMail } from "../../config/nodeMailer.js";
-import Student from "../../models/student.model.js"; // ✅ Correct import
+import Student from "../../models/student.model.js";
 import bcrypt from "bcrypt";
 
 const otpStore = {};
@@ -8,14 +8,6 @@ const otpStore = {};
 export const pongFromStudent = async (req, res, next) => {
     try {
         res.json({ message: "Pong from Student Controller" });
-    } catch (error) {
-        next(error);
-    }
-};
-
-export const renderHome = async (req, res, next) => {
-    try {
-        res.json({ message: "Welcome to the Home Page" });
     } catch (error) {
         next(error);
     }
@@ -130,6 +122,51 @@ export const resendOtp = async (req, res, next) => {
 
     } catch (error) {
         console.error("Resend OTP Error:", error);
+        next(error);
+    }
+};
+
+export const fetchUser = async (req, res, next) => {
+    try {
+        const userId = req.id;
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+        const user = await Student.findById(userId).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        next(error)
+    }
+}
+
+export const updateUser = async (req, res, next) => {
+    try {
+        const userId = req.id;
+        const updateData = req.body;
+
+        if (req.files) {
+            if (req.files.resume) {
+                updateData.resume = `/documents/${req.files.resume[0].filename}`;
+            }
+            if (req.files.certificates) {
+                updateData.certificates = `/documents/${req.files.certificates[0].filename}`;
+            }
+        }
+
+        console.log(updateData)
+        const updatedUser = await Student.findByIdAndUpdate(userId, updateData, { new: true }).select("-password");
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ success: true, message: "Profile updated successfully", data: updatedUser });
+    } catch (error) {
+        console.error("Profile updation Error:", error);
         next(error);
     }
 };

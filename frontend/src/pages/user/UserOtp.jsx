@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
-import { verifyOtp } from "../../../api/studentsApi";
+import { verifyOtp } from "../../api/studentsApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthImg from "../../components/user/AuthImg";
 

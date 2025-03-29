@@ -1,4 +1,5 @@
 import axios from "axios";
+import userAxiosInstance from "../config/userInterceptor";
 
 const API_BASE_URL = "http://localhost:3000";
 
@@ -40,12 +41,42 @@ export const resendOtp = async (email) => {
   }
 };
 
-export const fetchUserDataApi = async (userId) => {
+export const fetchUserDataApi = async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/get-user`, { userId });
+    const response = await userAxiosInstance.get(`/get-user`)
     return response.data;
   } catch (error) {
-    console.error("Resend OTP Error:", error);
-    throw new Error(error.response?.data?.message || "Failed to resend OTP. Try again later.");
+    console.error("Fetch User Data Error:", error);
+    throw new Error(error.response?.data?.message || "Failed to fetch user data. Try again later.");
+  }
+};
+
+export const editUserApi = async (updatedData) => {
+  try {
+    const formData = new FormData();
+    
+    Object.keys(updatedData).forEach(key => {
+      if (key !== 'resume' && key !== 'certificates') {
+        formData.append(key, updatedData[key]);
+      }
+    });
+    
+    if (updatedData.resume) {
+      formData.append('resume', updatedData.resume);
+    }
+    if (updatedData.certificates) {
+      formData.append('certificates', updatedData.certificates);
+    }
+
+    const response = await userAxiosInstance.post('/edit-user', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error("Update User Error:", error);
+    throw new Error(error.response?.data?.message || "Failed to update user data.");
   }
 };

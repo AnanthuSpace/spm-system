@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
-import { registerUser } from "../../../api/studentsApi";
+import { registerUser } from "../../api/studentsApi";
 import { Link, useNavigate } from "react-router-dom";
 import AuthImg from "../../components/user/AuthImg";
 

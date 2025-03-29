@@ -16,6 +16,9 @@ import Jobs from "../components/company/Jobs";
 import Students from "../components/company/Students";
 import UserOtp from "../pages/user/userOtp";
 import UserProtectedRoute from "../components/Protecter/UserProtectedRoute";
+import AdminLoginPage from "../pages/admin/adminLoginPage";
+import AdminLayout from "../layouts/AdminLayout";
+import UserList from "../components/admin/UserList";
 
 const AppRoutes = () => {
   return (
@@ -39,6 +42,10 @@ const AppRoutes = () => {
         <Route index element={<CompanyProfile />} />
         <Route path="jobs" element={<Jobs />} />
         <Route path="students" element={<Students />} />
+      </Route>
+      <Route path="/admin" element={<AdminLoginPage />} />
+      <Route path="/admin/dashboard" element={<AdminLayout />}>
+        <Route index element={<UserList />} />
       </Route>
     </Routes>
   );

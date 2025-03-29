@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import connectDB from "./config/dbConnect.js";
 import studentRoute from "./routes/student.routes.js";
 import companyRoute from "./routes/company.routes.js";
+import adminRoute from "./routes/admin.routes.js";
 import { notFoundHandler, errorHandler } from "./middlewares/errorHandler.js";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/documents", express.static(path.join(__dirname, "public", "documents")));
 
 app.use("/company", companyRoute);
+app.use("/admin", adminRoute);
 app.use("/", studentRoute);
 
 app.use(notFoundHandler);

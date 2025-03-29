@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUsers } from '../../../api/adminApi';
+import { getUsers } from '../../api/adminApi';
 import { Search, Eye, X } from 'lucide-react';
 
 const UserList = () => {

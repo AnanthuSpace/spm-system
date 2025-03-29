@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
-import { adminLoginApi } from "../../../api/adminApi";
+import { adminLoginApi } from "../../api/adminApi";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();

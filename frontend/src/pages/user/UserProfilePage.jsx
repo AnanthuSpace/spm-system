@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import EditProfileModal from "../../components/user/EditProfileModal";
 import ProfileDetails from "../../components/user/ProfileDetails";
 import { User } from "lucide-react";
-import { fetchUserDataApi } from "../../../api/studentsApi";
+import { fetchUserDataApi } from "../../api/studentsApi";
 
 const UserProfilePage = () => {
   const userId = localStorage.getItem("userId");

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Mail, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { loginCompany } from "../../api/comapnyApi";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -13,10 +14,20 @@ const validationSchema = Yup.object({
 const CompanyLogin = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (values) => {
-    console.log("Login Data:", values);
-    toast.success("Login successful!");
-    navigate("/company");
+  const handleSubmit = async (values) => {
+    try {
+      const response = await loginCompany(values);
+      console.log(response);
+      if (response.success) {
+        localStorage.setItem("companyToken", response.data.accessToken);
+        localStorage.setItem("companyId", response.data.companyData._id);
+        toast.success(response.message);
+        navigate("/company");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error.message);
+    }
   };
 
   return (

@@ -54,13 +54,13 @@ export const fetchUserDataApi = async () => {
 export const editUserApi = async (updatedData) => {
   try {
     const formData = new FormData();
-    
+
     Object.keys(updatedData).forEach(key => {
       if (key !== 'resume' && key !== 'certificates') {
         formData.append(key, updatedData[key]);
       }
     });
-    
+
     if (updatedData.resume) {
       formData.append('resume', updatedData.resume);
     }
@@ -73,7 +73,6 @@ export const editUserApi = async (updatedData) => {
         'Content-Type': 'multipart/form-data'
       }
     });
-    
     return response.data;
   } catch (error) {
     console.error("Update User Error:", error);

@@ -100,6 +100,10 @@ export const companyLogin = async (req, res, next) => {
             return res.status(401).json({ success: false, message: "Invalid credentials" });
         }
 
+        if (company.status === "pending") {
+            return res.status(403).json({ success: false, message: "Your company profile is under review. Please wait for approval." });
+        }
+
         const accessToken = generateAccessToken(company._id)
 
         res.status(200).json({
@@ -109,6 +113,56 @@ export const companyLogin = async (req, res, next) => {
         });
 
     } catch (error) {
+        next(error);
+    }
+};
+
+export const getCompanyProfile = async (req, res, next) => {
+    try {
+        const companyId = req.id
+        console.log(companyId)
+        if (!companyId) {
+            return res.status(400).json({ message: "Company ID is required" });
+        }
+        const company = await Company.findById(companyId).select("-password");
+        if (!company) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(company);
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+}
+
+export const updateCompany = async (req, res, next) => {
+    try {
+        const companyId = req.id;
+        const companyData = req.body
+        const existingCompany = await Company.findById(companyId);
+        if (!existingCompany) {
+            return res.status(404).json({ message: "Company not found" });
+        }
+
+        const updatedCompany = await Company.findByIdAndUpdate(
+            companyId,
+            { $set: companyData },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedCompany) {
+            return res.status(400).json({ message: "Failed to update company" });
+        }
+
+
+        res.status(200).json({
+            success: true,
+            message: "Company updated successfully",
+            company: updatedCompany
+        });
+
+    } catch (error) {
+        console.error("Error updating company:", error);
         next(error);
     }
 };

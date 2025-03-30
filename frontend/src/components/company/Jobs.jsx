@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Plus } from "lucide-react";
-import { Link } from "react-router-dom";
+import AddJobModal from "./AddJobModal";
 
-const jobs = [
+const initialJobs = [
   {
     id: 1,
     title: "Frontend Developer",
@@ -34,23 +34,34 @@ const jobs = [
 ];
 
 const Jobs = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [jobList, setJobList] = useState(initialJobs);
+
+  const handleAddJob = (newJob) => {
+    const newJobWithId = {
+      ...newJob,
+      id: jobList.length > 0 ? Math.max(...jobList.map((job) => job.id)) + 1 : 1,
+    };
+    setJobList([...jobList, newJobWithId]);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="mx-auto bg-white shadow-md rounded-lg p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-semibold">Your Job Listings</h1>
-        <Link
-          to="/create-job"
-          className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-600"
         >
           <Plus size={18} />
           Create Job
-        </Link>
+        </button>
       </div>
 
-      {/* Job List */}
-      {jobs.length > 0 ? (
+      {jobList.length > 0 ? (
         <div className="space-y-4">
-          {jobs.map((job) => (
+          {jobList.map((job) => (
             <div
               key={job.id}
               className="border p-4 rounded-md shadow-sm hover:shadow-md transition"
@@ -66,6 +77,15 @@ const Jobs = () => {
         </div>
       ) : (
         <p className="text-gray-500">No jobs posted yet.</p>
+      )}
+
+      {isModalOpen && (
+        <AddJobModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleAddJob}
+          companyName="Tech Solutions Pvt Ltd"
+        />
       )}
     </div>
   );

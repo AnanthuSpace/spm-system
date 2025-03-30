@@ -8,7 +8,7 @@ const Navbar = () => {
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const navigate = useNavigate();
 
-  const userData = localStorage.getItem("userId")
+  const userData = localStorage.getItem("accessToken")
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -23,7 +23,6 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userData");
     localStorage.removeItem("accessToken");
     navigate("/login");
     setDropdownOpen(false);

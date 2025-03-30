@@ -20,7 +20,6 @@ const CompanyLogin = () => {
       console.log(response);
       if (response.success) {
         localStorage.setItem("companyToken", response.data.accessToken);
-        localStorage.setItem("companyId", response.data.companyData._id);
         toast.success(response.message);
         navigate("/company");
       }

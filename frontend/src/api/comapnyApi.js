@@ -38,3 +38,30 @@ export const updateCompanyProfileApi = async (updatedData) => {
         throw error.response?.data || "Something went wrong!";
     }
 }
+
+export const addJobs = async (jobData) => {
+    try {
+        const response = await companyAxiosInstance.post(`${API_BASE_URL}/add-job`, jobData)
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || "Something went wrong!";
+    }
+}
+
+export const fetchJobApi = async() => {
+    try {
+        const response = await companyAxiosInstance.get(`${API_BASE_URL}/get-jobs`)
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || "Something went wrong!";
+    }
+}
+
+export const fetchStudentsApi = async() => {
+    try {
+        const response = await companyAxiosInstance.get(`${API_BASE_URL}/get-students`)
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || "Something went wrong!";
+    }
+}

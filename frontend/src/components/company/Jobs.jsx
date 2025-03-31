@@ -1,46 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import AddJobModal from "./AddJobModal";
+import { fetchJobApi } from "../../api/comapnyApi";
 
-const initialJobs = [
-  {
-    id: 1,
-    title: "Frontend Developer",
-    companyName: "Tech Solutions Pvt Ltd",
-    location: "Remote",
-    type: "Full-time",
-  },
-  {
-    id: 2,
-    title: "React.js Developer",
-    companyName: "Tech Solutions Pvt Ltd",
-    location: "Bangalore, India",
-    type: "Contract",
-  },
-  {
-    id: 3,
-    title: "Backend Engineer",
-    companyName: "Tech Solutions Pvt Ltd",
-    location: "New York, USA",
-    type: "Full-time",
-  },
-  {
-    id: 4,
-    title: "Full Stack Developer",
-    companyName: "Tech Solutions Pvt Ltd",
-    location: "San Francisco, USA",
-    type: "Part-time",
-  },
-];
+const initialJobs = [];
 
 const Jobs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [jobList, setJobList] = useState(initialJobs);
 
+  const fetchJobs = async () => {
+    try {
+      const result = await fetchJobApi();
+      if (result.success) {
+        setJobList(result.jobs);
+      }
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobs();
+  }, [isModalOpen]);
+
   const handleAddJob = (newJob) => {
     const newJobWithId = {
       ...newJob,
-      id: jobList.length > 0 ? Math.max(...jobList.map((job) => job.id)) + 1 : 1,
+      id:
+        jobList.length > 0 ? Math.max(...jobList.map((job) => job.id)) + 1 : 1,
     };
     setJobList([...jobList, newJobWithId]);
     setIsModalOpen(false);
@@ -63,20 +51,25 @@ const Jobs = () => {
         <div className="space-y-4">
           {jobList.map((job) => (
             <div
-              key={job.id}
+              key={job._id}
               className="border p-4 rounded-md shadow-sm hover:shadow-md transition"
             >
               <h2 className="text-lg font-semibold">{job.title}</h2>
-              <p className="text-gray-600">{job.companyName}</p>
+              <p className="text-gray-600">{job.company}</p>
               <div className="flex justify-between text-gray-500 text-sm mt-2">
                 <span>{job.location}</span>
-                <span>{job.type}</span>
+                <span>{job.employmentType}</span>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-gray-500">No jobs posted yet.</p>
+        <div className="flex flex-col items-center justify-center text-gray-500 p-6">
+          <p className="text-lg">No jobs posted yet.</p>
+          <p className="text-sm">
+            Click "Create Job" to add a new job listing.
+          </p>
+        </div>
       )}
 
       {isModalOpen && (
@@ -84,7 +77,6 @@ const Jobs = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={handleAddJob}
-          companyName="Tech Solutions Pvt Ltd"
         />
       )}
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, UserCircle, LogOut, User } from "lucide-react";
+import { Menu, X, UserCircle, LogOut, User, Briefcase   } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +24,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("userId");
     navigate("/login");
     setDropdownOpen(false);
     setLogoutDialogOpen(false);
@@ -52,6 +53,9 @@ const Navbar = () => {
                   <Link to="/user-profile" className="flex items-center px-3 py-2 hover:bg-gray-100 rounded" onClick={() => setDropdownOpen(false)}>
                     <User size={18} className="mr-2" />Profile
                   </Link>
+                  <Link to="/applied-jobs" className="flex items-center px-3 py-2 hover:bg-gray-100 rounded" onClick={() => setDropdownOpen(false)}>
+                    <Briefcase  size={18} className="mr-2" />Applies Jobs
+                  </Link>
                   <button onClick={() => setLogoutDialogOpen(true)} className="flex items-center w-full px-3 py-2 text-left hover:bg-gray-100 rounded">
                     <LogOut size={18} className="mr-2" />Logout
                   </button>
@@ -77,6 +81,7 @@ const Navbar = () => {
           {userData ? (
             <>
               <li><Link to="/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={() => setIsOpen(false)}><User size={18} className="mr-2" />Profile</Link></li>
+              <li><Link to="/applied-jobs" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={() => setIsOpen(false)}><Briefcase  size={18} className="mr-2" />Applies Jobs</Link></li>
               <li><button onClick={() => setLogoutDialogOpen(true)} className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"><LogOut size={18} className="mr-2" />Logout</button></li>
             </>
           ) : (

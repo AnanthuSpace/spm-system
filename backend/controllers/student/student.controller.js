@@ -1,5 +1,8 @@
+import mongoose from "mongoose";
 import { generateAccessToken } from "../../config/jwtConfig.js";
 import { sendMail } from "../../config/nodeMailer.js";
+import Company from "../../models/company.model.js";
+import Job from "../../models/jobs.model.js";
 import Student from "../../models/student.model.js";
 import bcrypt from "bcrypt";
 
@@ -143,6 +146,65 @@ export const fetchUser = async (req, res, next) => {
     }
 }
 
+export const JobApply = async (req, res, next) => {
+    try {
+        const userId = req.id;
+        const { jobId } = req.body;
+
+        console.log(jobId)
+        if (!userId || !jobId) {
+            return res.status(400).json({ message: "User ID and Job ID are required." });
+        }
+
+        const user = await Student.findById(userId);
+        const job = await Job.findById(jobId);
+
+        if (!user || !job) {
+            return res.status(404).json({ message: "User or Job not found." });
+        }
+
+        if (user.appliedJobs.includes(jobId)) {
+            return res.status(400).json({ message: "You have already applied for this job." });
+        }
+
+        user.appliedJobs.push(jobId);
+        await user.save();
+
+        job.applicants.push(userId);
+        const updateJob = await job.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Job application submitted successfully.",
+            appliedJob: updateJob,
+        });
+
+    } catch (error) {
+        console.error("Error applying for job:", error);
+        next(error);
+    }
+};
+
+export const fetchCompanies = async (req, res, next) => {
+    try {
+        const company = await Company.find({ status: "approved" }).select("-password");
+        res.status(200).json({ success: true, company });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        next(error)
+    }
+}
+
+export const fetchJobs = async (req, res, next) => {
+    try {
+        const jobs = await Job.find();
+        res.status(200).json({ success: true, jobs });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        next(error)
+    }
+}
+
 export const updateUser = async (req, res, next) => {
     try {
         const userId = req.id;
@@ -167,6 +229,53 @@ export const updateUser = async (req, res, next) => {
         res.status(200).json({ success: true, message: "Profile updated successfully", data: updatedUser });
     } catch (error) {
         console.error("Profile updation Error:", error);
+        next(error);
+    }
+};
+
+export const getAppliedJobs = async (req, res, next) => {
+    try {
+        const userId = req.id;
+        if (!userId) {
+            return res.status(400).json({ success: false, message: "User ID is required." });
+        }
+
+        const result = await Student.aggregate([
+            { $match: { _id: new mongoose.Types.ObjectId(userId) } },  
+
+            {
+                $lookup: {
+                    from: "jobs",
+                    let: { appliedJobIds: "$appliedJobs" }, 
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: { $in: ["$_id", { $map: { input: "$$appliedJobIds", as: "id", in: { $toObjectId: "$$id" } } }] }
+                            }
+                        }
+                    ],
+                    as: "appliedJobs"
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    appliedJobs: 1,
+                },
+            },
+        ]);
+
+        if (!result.length) {
+            return res.status(404).json({ success: false, message: "User not found or no applied jobs." });
+        }
+
+        return res.status(200).json({
+            success: true,
+            appliedJobs: result[0].appliedJobs, // Extract the appliedJobs array
+        });
+
+    } catch (error) {
+        console.error("Error fetching applied jobs:", error);
         next(error);
     }
 };

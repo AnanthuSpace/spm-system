@@ -54,13 +54,13 @@ export const fetchUserDataApi = async () => {
 export const editUserApi = async (updatedData) => {
   try {
     const formData = new FormData();
-    
+
     Object.keys(updatedData).forEach(key => {
       if (key !== 'resume' && key !== 'certificates') {
         formData.append(key, updatedData[key]);
       }
     });
-    
+
     if (updatedData.resume) {
       formData.append('resume', updatedData.resume);
     }
@@ -73,10 +73,48 @@ export const editUserApi = async (updatedData) => {
         'Content-Type': 'multipart/form-data'
       }
     });
-    
     return response.data;
   } catch (error) {
     console.error("Update User Error:", error);
     throw new Error(error.response?.data?.message || "Failed to update user data.");
   }
 };
+
+export const fetchCompaniesApi = async () => {
+  try {
+    const response = await userAxiosInstance.get(`/get-companies`)
+    return response.data;
+  } catch (error) {
+    console.error("Update User Error:", error);
+    throw new Error(error.response?.data?.message || "Failed to update user data.");
+  }
+}
+
+
+export const fetchJobsApi = async () => {
+  try {
+    const response = await userAxiosInstance.get(`${API_BASE_URL}/get-jobs`)
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || "Something went wrong!";
+  }
+}
+
+export const applyApi = async (jobId) => {
+  try {
+    console.log(jobId)
+    const response = await userAxiosInstance.post(`${API_BASE_URL}/apply`, { jobId })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || "Something went wrong!";
+  }
+}
+
+export const getAppliedJobsApi = async () => {
+  try {
+    const response = await userAxiosInstance.get(`${API_BASE_URL}/applied-jobs`)
+    return response.data
+  } catch (error) {
+    throw error.response?.data || "Something went wrong!";
+  }
+}

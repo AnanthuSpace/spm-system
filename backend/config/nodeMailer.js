@@ -34,7 +34,7 @@ export const sendMail = async (email, type, otp = "", reason = "") => {
                 </div>
             </div>`,
         };
-    } else if (type === "rejection") {
+    } else if (type === "rejected") {
         mailOptions = {
             from: EMAIL_ID,
             to: email,
@@ -50,7 +50,7 @@ export const sendMail = async (email, type, otp = "", reason = "") => {
                 </div>
             </div>`,
         };
-    } else if (type === "approval") {
+    } else if (type === "approved") {
         mailOptions = {
             from: EMAIL_ID,
             to: email,

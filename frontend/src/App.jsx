@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 function App() {
   return (
     <>
-      <Toaster />
+      <Toaster  richColors/>
       <Router>
         <AppRoutes />
       </Router>

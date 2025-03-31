@@ -19,6 +19,8 @@ import UserProtectedRoute from "../components/Protecter/UserProtectedRoute";
 import AdminLoginPage from "../pages/admin/adminLoginPage";
 import AdminLayout from "../layouts/AdminLayout";
 import UserList from "../components/admin/UserList";
+import VerifyCompanies from "../components/admin/VerifyCompanies";
+import AppliedJobs from "../components/user/AppliedJobs";
 
 const AppRoutes = () => {
   return (
@@ -30,9 +32,10 @@ const AppRoutes = () => {
         <Route index element={<HomePage />} />
         <Route path="jobs" element={<JobList />} />
         <Route path="companies" element={<CompanyList />} />
-        <Route path="job-details" element={<JobView />} />
         <Route element={<UserProtectedRoute />}>
           <Route path="user-profile" element={<UserProfilePage />} />
+          <Route path="job-details" element={<JobView />} />
+          <Route path="applied-jobs" element={<AppliedJobs />} />
         </Route>
       </Route>
       <Route path="/company-signup" element={<CompanySignup />} />
@@ -46,6 +49,7 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminLoginPage />} />
       <Route path="/admin/dashboard" element={<AdminLayout />}>
         <Route index element={<UserList />} />
+        <Route path="verification" element={<VerifyCompanies />} />
       </Route>
     </Routes>
   );

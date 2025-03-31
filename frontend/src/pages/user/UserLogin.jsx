@@ -27,9 +27,8 @@ const UserLogin = () => {
         const response = await loginUser(values);
         if (response?.success) {
 
-          localStorage.setItem("userId", response.data.userData._id);
           localStorage.setItem("accessToken", response.data.accessToken);
-
+          localStorage.setItem("userId",response.data.userData._id)
           toast.success("Login successful!");
           resetForm();
           navigate("/");

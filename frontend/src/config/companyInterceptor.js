@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const adminAxiosInstance = axios.create({
-    baseURL: "http://localhost:3000/admin"
+const companyAxiosInstance = axios.create({
+    baseURL: "http://localhost:3000/company"
 });
 
-adminAxiosInstance.interceptors.request.use(
+companyAxiosInstance.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem("adminToken");
+        const accessToken = localStorage.getItem("companyToken");
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
@@ -17,4 +17,4 @@ adminAxiosInstance.interceptors.request.use(
     }
 );
 
-export default adminAxiosInstance
+export default companyAxiosInstance

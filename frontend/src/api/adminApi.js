@@ -21,3 +21,31 @@ export const getUsers = async () => {
         throw error.response?.data || "Something went wrong!";
     }
 }
+
+export const fetchPendingCompaniesApi = async () => {
+    try {
+        const response = await adminAxiosInstance.get(`${API_BASE_URL}/get-pending-company`)
+        return response.data
+    } catch (error) {
+        throw error.response?.data || "Something went wrong!";
+    }
+}
+
+export const fetchApprovedCompaniesApi = async () => {
+    try {
+        const response = await adminAxiosInstance.get(`${API_BASE_URL}/get-company`)
+        return response.data
+    } catch (error) {
+        throw error.response?.data || "Something went wrong!";
+    }
+}
+
+
+export const verifyCompanyApi = async (companyId, status, reason) => {
+    try {
+        const response = await adminAxiosInstance.post(`${API_BASE_URL}/verification`, { companyId, status, reason })
+        return response.data
+    } catch (error) {
+        throw error.response?.data || "Something went wrong!";
+    }
+}

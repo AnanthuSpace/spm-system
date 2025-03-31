@@ -19,6 +19,7 @@ import UserProtectedRoute from "../components/Protecter/UserProtectedRoute";
 import AdminLoginPage from "../pages/admin/adminLoginPage";
 import AdminLayout from "../layouts/AdminLayout";
 import UserList from "../components/admin/UserList";
+import VerifyCompanies from "../components/admin/VerifyCompanies";
 
 const AppRoutes = () => {
   return (
@@ -46,6 +47,7 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminLoginPage />} />
       <Route path="/admin/dashboard" element={<AdminLayout />}>
         <Route index element={<UserList />} />
+        <Route path="verification" element={<VerifyCompanies />} />
       </Route>
     </Routes>
   );
